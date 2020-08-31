@@ -14,7 +14,6 @@
 - Criação de receita de hamburguer
 - Edição de receita
 - Inserção de vídeos no descritivo
-- Descritivo
 - Conversor de medidas
 - Comentários e resposta
 - Pesquisa de hamburguers?
