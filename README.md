@@ -4,7 +4,7 @@
 
 - Layout: ?
 - Front-end: HTML, SASS (CSS), JS
-- Back-end: PHP OU NODEJS, MySQL
+- Back-end: PHP, MySQL ou PostGreSQL
 
 **Funcionalidades:**
 
