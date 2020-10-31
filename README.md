@@ -3,7 +3,7 @@
 **Especificações:**
 
 - Layout: ?
-- Front-end: HTML, SASS (CSS), JS
+- Front-end: HTML, CSS, JS
 - Back-end: PHP
 - DataBase: MySQL ou PostGreSQL
 
