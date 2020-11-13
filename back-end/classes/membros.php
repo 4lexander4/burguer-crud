@@ -13,16 +13,10 @@ class Membros{
     private $tipopermissao;
 
     // Colocamos os parametros do JSON para instânciar o objeto
-    public function __construct($nome, $sobrenome, $cidade, $estado, $email, $usuario, $senha, $datacriacao, $tipopermissao){
-        $this->nome = $nome;
-        $this->sobrenome = $sobrenome;
-        $this->cidade = $cidade;
-        $this->estado = $estado;
-        $this->email = $email;
-        $this->usuario = $usuario;
-        $this->senha = $senha;
-        $this->datacriacao = $datacriacao;
-        $this->tipopermissao = $tipopermissao;        
+    public function __construct($params){        
+        foreach($params as $index => $value){            
+            $this->{$index} = $value;                        
+        }
     }
 
     // Funções para retornar o valor de uma variável da classe
@@ -64,47 +58,6 @@ class Membros{
 
     public function GetTipoPermissao(){
         return $this->tipopermissao;
-    }
-
-    // Funções para altera o valor de uma variável da classe
-    /* public function SetCodMembro($value){
-        $this->codmembro = $value;
-    }
-
-    public function SetNome($value){
-        $this->nome = $value;
-    }
-
-    public function SetSobrenome($value){
-        $this->sobrenome = $value;
-    }    
-
-    public function SetCidade($value){
-        $this->cidade = $value;
-    }
-
-    public function SetEstado($value){
-        $this->estado = $value;
-    }
-
-    public function SetEmail($value){
-        $this->email = $value;
-    }
-
-    public function SetUsuario($value){
-        $this->usuario = $value;
-    }
-
-    public function SetSenha($value){
-        $this->senha = $value;
-    }
-
-    public function SetDataCriacao($value){
-        $this->datacriacao = $value;
-    }
-
-    public function SetTipoPermissao($value){
-        $this->tipopermissao = $value;
-    }  */  
+    }  
 }
 ?>
