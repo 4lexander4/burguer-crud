@@ -29,10 +29,11 @@ class MembrosDAO {
             $stmt->bindParam(':tipopermissao', $membro->GetTipoPermissao(), PDO::PARAM_BOOL);            
             // Executa a query
             $stmt->execute();
-            return $membro;
+            return true;
         } 
         catch(PDOException $e){
-            echo "SQL ERROR: " . $e->getMessage();        
+            var_dump("SQL ERROR: " . $e->getMessage());
+            return false;
         }
         // Encerra a conexão com o banco de dados
         $pdo = null;
@@ -43,7 +44,7 @@ class MembrosDAO {
         // Array onde será armazenado os dados do DB
         $result = array();
         try{
-            $stmt = $pdo->prepare("SELECT * FROM membros");
+            $stmt = $pdo->prepare("SELECT * FROM membros ORDER BY codmembro");
             $stmt->execute();            
             /**
              * Para construtores com parâmetros, deve-se passar valores iniciais para o fetch iniciar.
@@ -54,7 +55,8 @@ class MembrosDAO {
             return $result;
         }
         catch(PDOException $e){
-            echo "SQL ERROR: " . $e->getMessage();
+            var_dump("SQL ERROR: " . $e->getMessage());
+            return false;
         }
         $pdo = null;
     }
@@ -95,18 +97,25 @@ class MembrosDAO {
     
     public function Deletar($id){
         try{   
-            $pdo = Database::getConnection();         
+            $pdo = Database::getConnection();                                  
             $stmt = $pdo->prepare("DELETE FROM membros WHERE codmembro = :id");        
             $stmt->bindParam(':id', $id);        
             $stmt->execute();
+            if($stmt->rowCount() == 0){
+                return false;
+            }
+            else{
+                return true;
+            }
         }
         catch(PDOException $e)
         {
-            echo "SQL ERROR: " . $e->getMessage();
+            var_dump("SQL ERROR: " . $e->getMessage());
+            return false;
         }
         $pdo = null;  
-    }
-    
+    } 
+
     public function Atualizar($id, Membros $membroAlterado){    
         try{
             $pdo = Database::getConnection();
@@ -121,11 +130,13 @@ class MembrosDAO {
             $stmt->bindParam(':datacriacao', $membroAlterado->GetDataCriacao());
             $stmt->bindParam(':tipopermissao', $membroAlterado->GetTipoPermissao(), PDO::PARAM_BOOL);
             $stmt->bindValue(":id", $id);
-            $stmt->execute();            
+            $stmt->execute();
+            return true;
         }
         catch(PDOException $e)
         {
-            echo "SQL ERROR: " . $e->getMessage();
+            var_dump("SQL ERROR: " . $e->getMessage());
+            return false;
         }
         $pdo = null;     
     }

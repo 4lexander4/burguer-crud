@@ -2,15 +2,19 @@
 class Database{    
     // Variável que vai fazer a conexão com o DB
     private static $connect;
-
+    
     // static: A função pode ser chamada sem precisar instanciar um objeto
     // Retorna um objeto do qual criou a conexão com o DB
     public static function getConnection(){            
-        // Dados para se conectar ao DB
-        $hostname = "127.0.0.1";
-        $database = "burguer_crud";
-        $username = "postgres";
-        $password = "admin";        
+        // Arquivo JSON com os parametros do DB
+        $str = file_get_contents('./json/database_local.json');
+        $json = json_decode($str, true);
+
+        // Atribuindo os parametros da conexão do DB
+        $hostname = $json['hostname'];        
+        $database = $json['database'];
+        $username = $json['username'];
+        $password = $json['password'];
         // Verifica se vai ocorrer um erro
         try{
             // Criando a conexão com o banco de dados

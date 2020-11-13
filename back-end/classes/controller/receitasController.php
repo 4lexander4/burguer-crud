@@ -9,28 +9,43 @@ class ReceitasController{
 
     public function Listar($request, $response, $args){
         $dao = new ReceitasDAO();
-        $payload = json_encode($dao->Listar());
-        $response->getBody()->write($payload);
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $return = $dao->Listar();
+        if($return == false){
+            return $response->withStatus(404);
+        }
+        else{
+            $payload = json_encode($return);
+            $response->getBody()->write($payload);
+            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        }        
     }
 
     public function Inserir($request, $response, $args){
-        $data = json_decode($request->getBody(), true);        
-        $obj = new Receitas($data);        
+        $data = $request->getParsedBody();       
+        $obj = new Receitas($data);                       
         $dao = new ReceitasDAO();
-        $dao->Inserir($obj);
-        $payload = json_encode($obj);
-        $response->getBody()->write($payload);
-        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+        $return = $dao->Inserir($obj);
+        if($return == false){
+            return $response->withStatus(400);
+        }
+        else{
+            return $response->withStatus(201);
+        }
     }
 
     public function BuscarPorId($request, $response, $args){
         // Argumento informado no Path da URI
         $id = $args['id'];
         $dao = new ReceitasDAO();
-        $payload = json_encode($dao->BuscarPorId($id));
-        $response->getBody()->write($payload);
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');       
+        $return = $dao->BuscarPorId($id);
+        if($return == false){
+            return $response->withStatus(404);
+        }
+        else{
+            $payload = json_encode($return);
+            $response->getBody()->write($payload);
+            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');       
+        }
     }
 
     public function Atualizar($request, $response, $args){
@@ -38,22 +53,50 @@ class ReceitasController{
         $id = $args['id'];
         $data = $request->getParsedBody();
         $receita = new Receitas($data);
-
         $dao = new ReceitasDAO();
-        $dao->Atualizar($id, $receita);
-
-        $payload = json_encode($receita);
-        $response->getBody()->write($payload);
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $return = $dao->Atualizar($id, $receita);
+        if($return == false){
+            return $response->withStatus(406);
+        }
+        else{
+            return $response->withStatus(201);
+        }
     }
 
     public function Deletar($request, $response, $args){
         $id = $args['id'];
-
         $dao = new ReceitasDAO();
-        $dao->Deletar($id);
-        $response->getBody()->write("REMOÇÃO REALIZADA!");
-        return $response->withStatus(200);
+        $return = $dao->Deletar($id);
+        if($return == false){
+            return $response->withStatus(406);
+        }
+        else{
+            return $response->withStatus(200);
+        }        
+    }
+
+    public function AtualizarLikes($request, $response, $args){
+        $data = $request->getParsedBody();
+        $dao = new ReceitasDAO();
+        $return = $dao->AtualizarLikes($data['codreceita']);
+        if($return == false){
+            return $response->withStatus(406);
+        }
+        else{
+            return $response->withStatus(201);
+        }
+    }
+
+    public function AtualizarAvaliacao($request, $response, $args){
+        $data = $request->getParsedBody();
+        $dao = new ReceitasDAO();
+        $return = $dao->AtualizarAvaliacao($data['codreceita'], $data['avaliacao']);
+        if($return == false){
+            return $response->withStatus(406);
+        }
+        else{
+            return $response->withStatus(201);
+        }
     }
 }
 ?>

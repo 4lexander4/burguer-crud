@@ -1,13 +1,12 @@
 <?php
 class Receitas{
-
     private $codreceita;
-    private $titulo;
+    public $titulo;
     private $descricao;
-    private $likes = 0;
+    private $likes;
     // False = Comum | True = Vegana
     private $tipocarne;
-    private $avaliacao = 0.00;
+    private $avaliacao;
     private $membros_codmembro;   
 
     // Colocamos os parametros do JSON para instânciar o objeto
@@ -17,6 +16,7 @@ class Receitas{
         }
     }
 
+    // Função para retornar o valor de uma variável da classe
     public function GetCodReceita(){
         return $this->codreceita;
     }

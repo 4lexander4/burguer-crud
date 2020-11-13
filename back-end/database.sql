@@ -19,19 +19,21 @@ create table receitas(
 codreceita serial primary key,
 titulo varchar(50) not null,
 descricao text not null,
-likes int,
+likes int default 0,
 tipoCarne boolean not null,
-avaliacao float,
+avaliacao decimal(10,2) default 0.0,
+totalvotos int default 0,
 membros_codmembro int not null,
 -- foreign key => Define a chave estrangeira
-foreign key(membros_codmembro) references membros(codmembro));
+-- on delete cascade => deleta todas as FK relacionadas
+foreign key(membros_codmembro) references membros(codmembro) on delete cascade);
 
 create table comentarios(
-codcomentarios serial primary key,
+codcomentario serial primary key,
 comentario text not null,
 dataCriacao date not null,
-likes int,
+likes int default 0,
 receitas_codreceita int not null,
 membros_codmembro int not null,
-foreign key(receitas_codreceita) references receitas(codreceita),
-foreign key(membros_codmembro) references membros(codmembro));
+foreign key(receitas_codreceita) references receitas(codreceita) on delete cascade,
+foreign key(membros_codmembro) references membros(codmembro) on delete cascade);
